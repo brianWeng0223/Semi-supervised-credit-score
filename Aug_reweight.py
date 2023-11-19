@@ -67,21 +67,9 @@ for i in range(1):
     X_train_balance_logi, y_train_balance_logi = aus.fit_resample(X_train_valid_scaler, y_train_valid)
     ##############Basic
     #     model = LogisticRegression(C=0.1)
-    model = xgb.XGBClassifier(
-        learning_rate=0.01,  # 学习率，控制每次迭代更新权重时的步长，默认0.3;调参：值越小，训练越慢;典型值为0.01-0.2
-        n_estimators=320,  # 总共迭代的次数，即决策树的个数
-        max_depth=9,  # 树的深度,默认值为6，典型值3-10;调参：值越大，越容易过拟合；值越小，越容易欠拟合
-        min_child_weight=3,  # 叶子节点最小权重;默认值为1;调参：值越大，越容易欠拟合；值越小，越容易过拟合
-        gamma=0.4,  # 惩罚项系数，指定节点分裂所需的最小损失函数下降值
-        subsample=0.8,  # 训练每棵树时，使用的数据占全部训练集的比例。默认值为1，典型值为0.5-1;调参：防止overfitting
-        colsample_bytree=0.8,  # 随机选择N%特征建立决策树;防止overfitting
-        objective='binary:logistic',
-        nthread=4,
-        scale_pos_weight=1,
-        # 解决样本个数不平衡的问题;正样本的权重，在二分类任务中，当正负样本比例失衡时，设置正样本的权重，模型效果更好。例如，当正负样本比例为1:10时，scale_pos_weight=10.
-        seed=27,
-        importance_type='gini',
-        reg_alpha=0)
+    model = RandomForestClassifier(n_estimators=280,min_samples_split=30,
+                                  min_samples_leaf=20,max_depth=7,criterion='gini'
+                                                     )
 
     ##################  Augmentation
 
